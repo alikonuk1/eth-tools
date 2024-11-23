@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   VStack, Text, Flex, Box, Input,
   Tabs, TabList, TabPanels, Tab, TabPanel,
-  Select, useClipboard, Button
+  Select, useClipboard, Button, Switch, FormControl, FormLabel
 } from "@chakra-ui/react";
 import { ethers } from "ethers";
 
@@ -18,6 +18,12 @@ const Hero = () => {
   const [bytes32Result, setBytes32Result] = useState("");
   const { hasCopied: hasCopiedBytes, onCopy: onCopyBytes } = useClipboard(bytes32Result);
   const { hasCopied: hasCopiedUnit, onCopy: onCopyUnit } = useClipboard(convertedValue);
+
+  // Function selector states
+  const [functionSignature, setFunctionSignature] = useState("");
+  const [selectorResult, setSelectorResult] = useState("");
+  const [isPadded, setIsPadded] = useState(false);
+  const { hasCopied: hasCopiedSelector, onCopy: onCopySelector } = useClipboard(selectorResult);
 
   // Available units for conversion
   const units = [
@@ -51,6 +57,23 @@ const Hero = () => {
     }
   };
 
+  // Convert function signature to selector
+  const convertToSelector = () => {
+    try {
+      if (!functionSignature) return;
+      const hash = ethers.utils.id(functionSignature);
+      const selector = hash.slice(0, 10);
+      if (isPadded) {
+        // Pad with 28 bytes of zeros (56 characters) after the 4-byte selector
+        setSelectorResult(selector + "0".repeat(56));
+      } else {
+        setSelectorResult(selector);
+      }
+    } catch (error) {
+      setSelectorResult("Invalid input");
+    }
+  };
+
   return (
     <Flex direction="column" alignItems="center" justifyContent="center" minH="48vh">
             <VStack p={6} mb={12}>
@@ -73,7 +96,6 @@ const Hero = () => {
         </VStack>
       <Box
         w={["100%", "360px", "600px"]}
-        /* bg="white" */
         boxShadow="xl"
         borderRadius="lg"
         overflow="hidden"
@@ -84,6 +106,7 @@ const Hero = () => {
           <TabList mb="1em">
             <Tab fontWeight="bold">Units</Tab>
             <Tab fontWeight="bold">String to Bytes32</Tab>
+            <Tab fontWeight="bold">Function Selector</Tab>
           </TabList>
 
           <TabPanels>
@@ -152,6 +175,46 @@ const Hero = () => {
                       <Text fontSize="sm" wordBreak="break-all">{bytes32Result}</Text>
                       <Button size="sm" onClick={onCopyBytes}>
                         {hasCopiedBytes ? "Copied!" : "Copy"}
+                      </Button>
+                    </Flex>
+                  </Box>
+                )}
+              </VStack>
+            </TabPanel>
+
+            {/* Function Selector Panel */}
+            <TabPanel>
+              <VStack spacing={4}>
+                <Text fontSize="xl" fontWeight="bold">Function Selector</Text>
+                
+                <Input
+                  placeholder="e.g. transfer(address,uint256)"
+                  value={functionSignature}
+                  onChange={(e) => setFunctionSignature(e.target.value)}
+                  focusBorderColor="gray.600"
+                />
+
+                <FormControl display="flex" alignItems="center" justifyContent="center">
+                  <FormLabel htmlFor="padded-mode" mb="0">
+                    Pad with zeros (32 bytes)
+                  </FormLabel>
+                  <Switch 
+                    id="padded-mode" 
+                    isChecked={isPadded}
+                    onChange={(e) => setIsPadded(e.target.checked)}
+                  />
+                </FormControl>
+
+                <Button colorScheme="gray" onClick={convertToSelector} w="100%">
+                  Get Selector
+                </Button>
+
+                {selectorResult && (
+                  <Box w="100%" p={4} borderRadius="md" borderWidth="1px">
+                    <Flex justify="space-between" align="center">
+                      <Text fontSize="lg" fontFamily="monospace" wordBreak="break-all">{selectorResult}</Text>
+                      <Button size="sm" onClick={onCopySelector}>
+                        {hasCopiedSelector ? "Copied!" : "Copy"}
                       </Button>
                     </Flex>
                   </Box>
