@@ -2,7 +2,7 @@ export const CONTRACT = "0x34f13A5C0AD750d212267bcBc230c87AEFD35CC5";
 export const socialData = {
     EMAIL: "mailto:alikonuk1@protonmail.com",
     TWITTER: "https://x.com/slot1024_eth",
-    GITHUB: "https://github.com/alikonuk1",
+    GITHUB: "https://github.com/alikonuk1/eth-tools",
     FLATICON: "https://www.flaticon.com/free-icons/ethereum",
   };
 export const ABI = [
