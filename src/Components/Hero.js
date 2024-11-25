@@ -165,7 +165,7 @@ const Hero = () => {
                   focusBorderColor="gray.600"
                 />
 
-                <Button colorScheme="gray" onClick={convertToBytes32} w="100%">
+                <Button colorScheme="gray" onClick={convertToBytes32} w="60%">
                   Convert
                 </Button>
 
@@ -205,7 +205,7 @@ const Hero = () => {
                   />
                 </FormControl>
 
-                <Button colorScheme="gray" onClick={convertToSelector} w="100%">
+                <Button colorScheme="gray" onClick={convertToSelector} w="60%">
                   Get Selector
                 </Button>
 
