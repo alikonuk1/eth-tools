@@ -4,6 +4,8 @@ export const chainData = {
   "10": { name: "Optimism", alias: ["op", "optimism"] },
   "56": { name: "BNB Smart Chain", alias: ["bsc", "binance", "bnb"] },
   "137": { name: "Polygon", alias: ["polygon", "matic"] },
+  "1329": { name: "SEI", alias: ["sei"] },
+  "5000": { name: "Mantle", alias: ["mantle", "mnt"] },
   "42161": { name: "Arbitrum One", alias: ["arbitrum", "arb"] },
   "43114": { name: "Avalanche C-Chain", alias: ["avalanche", "avax"] },
   "81457": { name: "Blast", alias: ["blast"] },
