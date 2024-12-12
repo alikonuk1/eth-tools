@@ -5,6 +5,7 @@ import {
   Select, useClipboard, Button, Switch, FormControl, FormLabel
 } from "@chakra-ui/react";
 import { ethers } from "ethers";
+import { findChainId, findChainName } from "../data/chainIds";
 
 const Hero = () => {
   // Unit conversion states
@@ -24,6 +25,11 @@ const Hero = () => {
   const [selectorResult, setSelectorResult] = useState("");
   const [isPadded, setIsPadded] = useState(false);
   const { hasCopied: hasCopiedSelector, onCopy: onCopySelector } = useClipboard(selectorResult);
+
+  // Chain ID lookup states
+  const [chainInput, setChainInput] = useState("");
+  const [chainResult, setChainResult] = useState("");
+  const { hasCopied: hasCopiedChain, onCopy: onCopyChain } = useClipboard(chainResult);
 
   // Available units for conversion
   const units = [
@@ -74,6 +80,27 @@ const Hero = () => {
     }
   };
 
+  // Look up chain ID/name
+  const lookupChain = () => {
+    if (!chainInput) return;
+    
+    // First try to find chain name by ID
+    const chainName = findChainName(chainInput);
+    if (chainName) {
+      setChainResult(chainName);
+      return;
+    }
+    
+    // If not found, try to find chain ID by name
+    const chainId = findChainId(chainInput);
+    if (chainId) {
+      setChainResult(chainId);
+      return;
+    }
+    
+    setChainResult("Not found");
+  };
+
   return (
     <Flex direction="column" alignItems="center" justifyContent="center" minH="48vh">
             <VStack p={6} mb={12}>
@@ -107,6 +134,7 @@ const Hero = () => {
             <Tab fontWeight="bold">Units</Tab>
             <Tab fontWeight="bold">String to Bytes32</Tab>
             <Tab fontWeight="bold">Function Selector</Tab>
+            <Tab fontWeight="bold">Chain ID</Tab>
           </TabList>
 
           <TabPanels>
@@ -215,6 +243,35 @@ const Hero = () => {
                       <Text fontSize="lg" fontFamily="monospace" wordBreak="break-all">{selectorResult}</Text>
                       <Button size="sm" onClick={onCopySelector}>
                         {hasCopiedSelector ? "Copied!" : "Copy"}
+                      </Button>
+                    </Flex>
+                  </Box>
+                )}
+              </VStack>
+            </TabPanel>
+
+            {/* Chain ID Lookup Panel */}
+            <TabPanel>
+              <VStack spacing={4}>
+                <Text fontSize="xl" fontWeight="bold">Chain ID Lookup</Text>
+                
+                <Input
+                  placeholder="Enter chain name (e.g. ethereum) or ID (e.g. 1)"
+                  value={chainInput}
+                  onChange={(e) => setChainInput(e.target.value)}
+                  focusBorderColor="gray.600"
+                />
+
+                <Button colorScheme="gray" onClick={lookupChain} w="60%">
+                  Look up
+                </Button>
+
+                {chainResult && (
+                  <Box w="100%" p={4} borderRadius="md" borderWidth="1px">
+                    <Flex justify="space-between" align="center">
+                      <Text fontSize="lg">{chainResult}</Text>
+                      <Button size="sm" onClick={onCopyChain}>
+                        {hasCopiedChain ? "Copied!" : "Copy"}
                       </Button>
                     </Flex>
                   </Box>
