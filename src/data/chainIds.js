@@ -9,6 +9,7 @@ export const chainData = {
   "42161": { name: "Arbitrum One", alias: ["arbitrum", "arb"] },
   "43114": { name: "Avalanche C-Chain", alias: ["avalanche", "avax"] },
   "81457": { name: "Blast", alias: ["blast"] },
+  "167000": { name: "Taiko", alias: ["taiko"] },
 
   // Testnets
   "5": { name: "Goerli", alias: ["goerli"] },
