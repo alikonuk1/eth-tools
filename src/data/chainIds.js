@@ -6,6 +6,7 @@ export const chainData = {
   "137": { name: "Polygon", alias: ["polygon", "matic"] },
   "1329": { name: "SEI", alias: ["sei"] },
   "5000": { name: "Mantle", alias: ["mantle", "mnt"] },
+  "8453": { name: "Base", alias: ["base"] },
   "42161": { name: "Arbitrum One", alias: ["arbitrum", "arb"] },
   "43114": { name: "Avalanche C-Chain", alias: ["avalanche", "avax"] },
   "81457": { name: "Blast", alias: ["blast"] },
