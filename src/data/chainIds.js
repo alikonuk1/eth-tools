@@ -12,6 +12,7 @@ export const chainData = {
   "43114": { name: "Avalanche C-Chain", alias: ["avalanche", "avax"] },
   "81457": { name: "Blast", alias: ["blast"] },
   "167000": { name: "Taiko", alias: ["taiko"] },
+  "59144": { name: "Linea", alias: ["linea", "metamask"] },
 
   // Testnets
   "5": { name: "Goerli", alias: ["goerli"] },
